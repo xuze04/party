@@ -1,3 +1,4 @@
+<!-- index.html -->
 <!doctype html>
 <html lang="zh-CN">
 <head>
@@ -7,103 +8,151 @@
   <link rel="stylesheet" href="styles.css">
 </head>
 <body>
-  <main class="app-shell">
-    <header class="topbar">
-      <div>
-        <p class="eyebrow">Party Sync</p>
-        <h1>聚会神器</h1>
-      </div>
-      <button class="icon-btn" id="resetBtn" type="button" aria-label="重置">↻</button>
-    </header>
 
-    <nav class="mode-tabs" aria-label="玩法切换">
-      <button class="tab active" data-mode="finger" type="button">指尖</button>
-      <button class="tab" data-mode="undercover" type="button">卧底</button>
-      <button class="tab" data-mode="werewolf" type="button">狼人杀</button>
-    </nav>
+<main class="app-shell">
 
-    <section class="panel active" id="fingerPanel">
-      <div class="section-head">
-        <h2>指尖模式</h2>
-        <p>多人把手指按在同一块屏幕上，点开始后随机亮出一位。</p>
-      </div>
-      <div class="finger-pad" id="fingerPad">
-        <div class="touch-ring"></div>
-        <span id="fingerHint">按住屏幕加入</span>
-      </div>
-      <div class="finger-list" id="fingerList"></div>
-      <button class="primary-btn" id="pickFingerBtn" type="button">开始抽选</button>
-    </section>
+  <header class="topbar">
+    <div>
+      <p class="eyebrow">Party Sync</p>
+      <h1>聚会神器</h1>
+    </div>
+  </header>
 
-    <section class="panel" id="undercoverPanel">
-      <div class="section-head">
-        <h2>谁是卧底在线房间</h2>
-        <p id="undercoverStatus">创建房间后可用微信、QQ 或房间号邀请好友。</p>
-      </div>
-      <div class="room-card">
-        <div class="room-title">
-          <strong id="undercoverRoomCode">卧底房间 ----</strong>
-          <div class="share-actions">
-            <button class="ghost-btn compact" id="shareUndercoverWechatBtn" type="button">微信</button>
-            <button class="ghost-btn compact" id="shareUndercoverQqBtn" type="button">QQ</button>
-          </div>
-        </div>
-        <div class="join-row">
-          <input id="undercoverRoomInput" type="text" placeholder="输入房间号" maxlength="8" autocomplete="off">
-          <button class="secondary-btn" id="enterUndercoverRoomBtn" type="button">进房</button>
-        </div>
-        <div class="join-row">
-          <input id="undercoverPlayerName" type="text" placeholder="玩家昵称" maxlength="10" autocomplete="off">
-          <button class="secondary-btn" id="joinUndercoverBtn" type="button">加入</button>
-        </div>
-        <button class="ghost-btn" id="newUndercoverRoomBtn" type="button">创建新卧底房间</button>
-      </div>
-      <div class="players" id="undercoverPlayersList"></div>
-      <div class="word-grid">
-        <label class="field">
-          <span>平民词</span>
-          <input id="civilianWord" type="text" value="牛奶" maxlength="12">
-        </label>
-        <label class="field">
-          <span>卧底词</span>
-          <input id="undercoverWord" type="text" value="豆浆" maxlength="12">
-        </label>
-      </div>
-      <button class="ghost-btn" id="randomWordsBtn" type="button">换一组词</button>
-      <button class="primary-btn" id="dealUndercoverBtn" type="button">全部准备后发牌</button>
-      <div class="cards" id="undercoverCards"></div>
-    </section>
+  <nav class="mode-tabs">
 
-    <section class="panel" id="werewolfPanel">
-      <div class="section-head">
-        <h2>狼人杀在线房间</h2>
-        <p id="werewolfStatus">输入房间号加入，或创建房间后把邀请发给好友。</p>
-      </div>
-      <div class="room-card">
-        <div class="room-title">
-          <strong id="werewolfRoomCode">狼人杀房间 ----</strong>
-          <div class="share-actions">
-            <button class="ghost-btn compact" id="shareWerewolfWechatBtn" type="button">微信</button>
-            <button class="ghost-btn compact" id="shareWerewolfQqBtn" type="button">QQ</button>
-          </div>
-        </div>
-        <div class="join-row">
-          <input id="werewolfRoomInput" type="text" placeholder="输入房间号" maxlength="8" autocomplete="off">
-          <button class="secondary-btn" id="enterWerewolfRoomBtn" type="button">进房</button>
-        </div>
-        <div class="join-row">
-          <input id="werewolfPlayerName" type="text" placeholder="玩家昵称" maxlength="10" autocomplete="off">
-          <button class="secondary-btn" id="joinWerewolfBtn" type="button">加入</button>
-        </div>
-        <button class="ghost-btn" id="newWerewolfRoomBtn" type="button">创建新狼人杀房间</button>
-      </div>
-      <div class="players" id="werewolfPlayersList"></div>
-      <button class="primary-btn" id="dealWerewolfBtn" type="button">全部准备后发牌</button>
-      <div class="cards" id="werewolfCards"></div>
-    </section>
-  </main>
+    <button class="tab active" data-panel="homePanel">
+      首页
+    </button>
 
-  <div class="toast" id="toast" role="status" aria-live="polite"></div>
-  <script src="app.js"></script>
+    <button class="tab" data-panel="undercoverPanel">
+      谁是卧底
+    </button>
+
+    <button class="tab" data-panel="werewolfPanel">
+      狼人杀
+    </button>
+
+  </nav>
+
+  <!-- 首页 -->
+  <section class="panel active" id="homePanel">
+
+    <div class="home-card">
+
+      <h2>指尖模式</h2>
+
+      <p>
+        多人把手指按在同一块屏幕上，
+        点击 START 后随机抽取一位。
+      </p>
+
+      <button class="primary-btn" id="enterFingerBtn">
+        进入指尖模式
+      </button>
+
+    </div>
+
+  </section>
+
+  <!-- 全屏指尖模式 -->
+  <section class="finger-screen" id="fingerScreen">
+
+    <div class="finger-pad" id="fingerPad">
+
+      <div class="finger-title">
+        按住屏幕加入
+      </div>
+
+      <button class="start-btn" id="startBtn">
+        START
+      </button>
+
+    </div>
+
+  </section>
+
+  <!-- 谁是卧底 -->
+  <section class="panel" id="undercoverPanel">
+
+    <div class="section-head">
+      <h2>谁是卧底</h2>
+      <p>输入玩家后随机发牌</p>
+    </div>
+
+    <div class="input-row">
+
+      <input
+        type="text"
+        id="undercoverName"
+        placeholder="输入玩家名字"
+      >
+
+      <button id="addUndercoverPlayer">
+        添加
+      </button>
+
+    </div>
+
+    <div class="players" id="undercoverPlayers">
+    </div>
+
+    <div class="word-grid">
+
+      <input
+        id="civilianWord"
+        value="牛奶"
+      >
+
+      <input
+        id="undercoverWord"
+        value="豆浆"
+      >
+
+    </div>
+
+    <button class="primary-btn" id="dealUndercover">
+      开始发牌
+    </button>
+
+    <div class="cards" id="undercoverCards"></div>
+
+  </section>
+
+  <!-- 狼人杀 -->
+  <section class="panel" id="werewolfPanel">
+
+    <div class="section-head">
+      <h2>狼人杀发牌</h2>
+      <p>输入玩家后随机分配身份</p>
+    </div>
+
+    <div class="input-row">
+
+      <input
+        type="text"
+        id="wolfName"
+        placeholder="输入玩家名字"
+      >
+
+      <button id="addWolfPlayer">
+        添加
+      </button>
+
+    </div>
+
+    <div class="players" id="wolfPlayers"></div>
+
+    <button class="primary-btn" id="dealWolf">
+      开始发牌
+    </button>
+
+    <div class="cards" id="wolfCards"></div>
+
+  </section>
+
+</main>
+
+<script src="app.js"></script>
+
 </body>
 </html>
