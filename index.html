@@ -697,7 +697,11 @@ updateTouches(e);
 
 });
 
-startBtn.onclick=()=>{
+startBtn.addEventListener(
+"touchstart",
+(e)=>{
+
+e.stopPropagation();
 
 if(
 fingerState.running ||
@@ -708,8 +712,7 @@ return;
 
 fingerState.running=true;
 
-startBtn.style.background=
-"#ef4444";
+startBtn.style.background="#ef4444";
 
 const ids=
 Array.from(
@@ -738,8 +741,7 @@ clearInterval(timer);
 
 fingerState.running=false;
 
-startBtn.style.background=
-"#22c55e";
+startBtn.style.background="#22c55e";
 
 const winnerIndex=
 ids.indexOf(
@@ -758,7 +760,9 @@ alert(
 
 },100);
 
-};
+},
+{passive:true}
+);
 
 // 卧底
 
