@@ -1,16 +1,52 @@
 <!-- index.html -->
-<!doctype html>
+<!DOCTYPE html>
 <html lang="zh-CN">
 <head>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-  <title>聚会神器</title>
-  <link rel="stylesheet" href="styles.css">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>聚会神器</title>
+<style>
+:root {
+  --cyan:#22d3ee;
+  --green:#22c55e;
+  --red:#ef4444;
+  --bg1:#020617;
+  --bg2:#071426;
+}
+body{
+  margin:0; font-family:-apple-system,BlinkMacSystemFont,"Segoe UI","Microsoft YaHei",sans-serif;
+  min-height:100vh;
+  color:white;
+  background: linear-gradient(135deg,var(--bg1),var(--bg2));
+}
+.app-shell{padding:20px;}
+.topbar{margin-bottom:20px;}
+.eyebrow{color:var(--cyan);font-size:12px;}
+h1{font-size:38px;}
+.mode-tabs{display:flex;gap:10px;margin-bottom:20px;}
+.tab{flex:1;height:48px;border:none;border-radius:16px;background:#132235;color:white;font-size:16px;}
+.tab.active{background:var(--cyan);color:black;}
+.panel{display:none;}
+.panel.active{display:block;}
+.primary-btn{width:100%;height:56px;border:none;border-radius:18px;background:var(--cyan);color:black;font-size:20px;font-weight:900;}
+.finger-screen{position:fixed;inset:0;display:none;z-index:9999;background:radial-gradient(circle at center, rgba(34,211,238,.1), transparent 300px),linear-gradient(135deg,#020617,#0f172a);}
+.finger-pad{width:100%;height:100%;position:relative;touch-action:none;}
+.finger-title{position:absolute;top:50px;left:50%;transform:translateX(-50%);color:#94a3b8;font-size:18px;}
+.start-btn{position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);width:240px;height:90px;border:none;border-radius:999px;background:#22c55e;color:white;font-size:38px;font-weight:900;box-shadow:0 0 40px rgba(34,197,94,.45);z-index:20;}
+.finger-dot{position:absolute;width:90px;height:90px;border-radius:50%;display:flex;justify-content:center;align-items:center;font-size:28px;font-weight:900;border:4px solid white;color:white;}
+.winner{animation:winnerPulse .4s infinite alternate;}
+@keyframes winnerPulse{from{transform:translate(-50%,-50%) scale(1);}to{transform:translate(-50%,-50%) scale(1.3);}}
+.input-row{display:flex;gap:10px;margin-bottom:20px;}
+.input-row input{flex:1;height:52px;border:none;border-radius:16px;padding:0 16px;font-size:16px;}
+.input-row button{width:90px;border:none;border-radius:16px;background:var(--cyan);font-weight:900;}
+.players{display:flex;flex-wrap:wrap;gap:10px;margin-bottom:20px;}
+.player{padding:10px 16px;background:#132235;border-radius:999px;}
+.cards{display:grid;gap:14px;margin-top:10px;}
+.card{padding:18px;border-radius:18px;background:#132235;font-size:18px;}
+</style>
 </head>
 <body>
-
 <main class="app-shell">
-
   <header class="topbar">
     <div>
       <p class="eyebrow">Party Sync</p>
@@ -19,140 +55,175 @@
   </header>
 
   <nav class="mode-tabs">
-
-    <button class="tab active" data-panel="homePanel">
-      首页
-    </button>
-
-    <button class="tab" data-panel="undercoverPanel">
-      谁是卧底
-    </button>
-
-    <button class="tab" data-panel="werewolfPanel">
-      狼人杀
-    </button>
-
+    <button class="tab active" data-panel="homePanel">首页</button>
+    <button class="tab" data-panel="undercoverPanel">谁是卧底</button>
+    <button class="tab" data-panel="werewolfPanel">狼人杀</button>
   </nav>
 
   <!-- 首页 -->
   <section class="panel active" id="homePanel">
-
-    <div class="home-card">
-
-      <h2>指尖模式</h2>
-
-      <p>
-        多人把手指按在同一块屏幕上，
-        点击 START 后随机抽取一位。
-      </p>
-
-      <button class="primary-btn" id="enterFingerBtn">
-        进入指尖模式
-      </button>
-
-    </div>
-
+    <h2>指尖模式</h2>
+    <p>多人把手指按在同一块屏幕上，点击 START 后随机抽取一位。</p>
+    <button class="primary-btn" id="enterFingerBtn">进入指尖模式</button>
   </section>
 
   <!-- 全屏指尖模式 -->
   <section class="finger-screen" id="fingerScreen">
-
     <div class="finger-pad" id="fingerPad">
-
-      <div class="finger-title">
-        按住屏幕加入
-      </div>
-
-      <button class="start-btn" id="startBtn">
-        START
-      </button>
-
+      <div class="finger-title">按住屏幕加入</div>
+      <button class="start-btn" id="startBtn">START</button>
     </div>
-
   </section>
 
-  <!-- 谁是卧底 -->
+  <!-- 卧底 -->
   <section class="panel" id="undercoverPanel">
-
-    <div class="section-head">
-      <h2>谁是卧底</h2>
-      <p>输入玩家后随机发牌</p>
-    </div>
-
+    <h2>谁是卧底</h2>
     <div class="input-row">
-
-      <input
-        type="text"
-        id="undercoverName"
-        placeholder="输入玩家名字"
-      >
-
-      <button id="addUndercoverPlayer">
-        添加
-      </button>
-
+      <input type="text" id="undercoverName" placeholder="玩家名字">
+      <button id="addUndercoverPlayer">添加</button>
     </div>
-
-    <div class="players" id="undercoverPlayers">
+    <div class="players" id="undercoverPlayers"></div>
+    <div class="input-row">
+      <input id="civilianWord" value="牛奶">
+      <input id="undercoverWord" value="豆浆">
     </div>
-
-    <div class="word-grid">
-
-      <input
-        id="civilianWord"
-        value="牛奶"
-      >
-
-      <input
-        id="undercoverWord"
-        value="豆浆"
-      >
-
-    </div>
-
-    <button class="primary-btn" id="dealUndercover">
-      开始发牌
-    </button>
-
+    <button class="primary-btn" id="dealUndercover">开始发牌</button>
     <div class="cards" id="undercoverCards"></div>
-
   </section>
 
   <!-- 狼人杀 -->
   <section class="panel" id="werewolfPanel">
-
-    <div class="section-head">
-      <h2>狼人杀发牌</h2>
-      <p>输入玩家后随机分配身份</p>
-    </div>
-
+    <h2>狼人杀发牌</h2>
     <div class="input-row">
-
-      <input
-        type="text"
-        id="wolfName"
-        placeholder="输入玩家名字"
-      >
-
-      <button id="addWolfPlayer">
-        添加
-      </button>
-
+      <input type="text" id="wolfName" placeholder="玩家名字">
+      <button id="addWolfPlayer">添加</button>
     </div>
-
     <div class="players" id="wolfPlayers"></div>
-
-    <button class="primary-btn" id="dealWolf">
-      开始发牌
-    </button>
-
+    <button class="primary-btn" id="dealWolf">开始发牌</button>
     <div class="cards" id="wolfCards"></div>
-
   </section>
-
 </main>
 
-<script src="app.js"></script>
+<script>
+// Tab切换
+const tabs=document.querySelectorAll(".tab");
+const panels=document.querySelectorAll(".panel");
+tabs.forEach(tab=>{tab.addEventListener("click",()=>{
+tabs.forEach(t=>t.classList.remove("active"));
+panels.forEach(p=>p.classList.remove("active"));
+tab.classList.add("active");
+document.getElementById(tab.dataset.panel).classList.add("active");
+});});
+
+// 指尖模式
+const enterFingerBtn=document.getElementById("enterFingerBtn");
+const fingerScreen=document.getElementById("fingerScreen");
+const fingerPad=document.getElementById("fingerPad");
+const startBtn=document.getElementById("startBtn");
+const colors=["#22d3ee","#ef4444","#a855f7","#22c55e","#f97316","#eab308","#3b82f6","#ec4899"];
+const fingerState={touches:new Map(),winner:null,running:false};
+
+enterFingerBtn.addEventListener("click",()=>{fingerScreen.style.display="block";});
+
+function renderTouches(){
+fingerPad.querySelectorAll(".finger-dot").forEach(el=>el.remove());
+Array.from(fingerState.touches.values()).forEach((touch,index)=>{
+const dot=document.createElement("div");
+dot.className="finger-dot";
+if(fingerState.winner===touch.id)dot.classList.add("winner");
+dot.style.left=touch.x+"px"; dot.style.top=touch.y+"px";
+dot.style.background=colors[index%colors.length];
+dot.innerText=index+1;
+fingerPad.appendChild(dot);
+});
+}
+
+function updateTouches(e){e.preventDefault();
+const rect=fingerPad.getBoundingClientRect();
+fingerState.touches.clear();
+Array.from(e.touches).forEach(touch=>{
+fingerState.touches.set(touch.identifier,{id:touch.identifier,x:touch.clientX-rect.left,y:touch.clientY-rect.top});
+});
+renderTouches();
+}
+
+fingerPad.addEventListener("touchstart",updateTouches,{passive:false});
+fingerPad.addEventListener("touchmove",updateTouches,{passive:false});
+fingerPad.addEventListener("touchend",updateTouches,{passive:false});
+
+startBtn.addEventListener("click",()=>{
+if(fingerState.running||fingerState.touches.size===0)return;
+fingerState.running=true;
+startBtn.style.background="#ef4444";
+const ids=Array.from(fingerState.touches.keys());
+let count=0;
+const timer=setInterval(()=>{
+fingerState.winner=ids[Math.floor(Math.random()*ids.length)];
+renderTouches();
+count++;
+if(count>=30){
+clearInterval(timer);
+fingerState.running=false;
+startBtn.style.background="#22c55e";
+const winnerIndex=ids.indexOf(fingerState.winner)+1;
+setTimeout(()=>{alert("抽中了手指 "+winnerIndex);},300);
+}
+},100);
+});
+
+// 卧底
+const undercoverPlayers=[];
+document.getElementById("addUndercoverPlayer").addEventListener("click",()=>{
+const input=document.getElementById("undercoverName");
+if(!input.value.trim())return;
+undercoverPlayers.push(input.value);
+renderUndercoverPlayers();
+input.value="";
+});
+function renderUndercoverPlayers(){
+const box=document.getElementById("undercoverPlayers");
+box.innerHTML="";
+undercoverPlayers.forEach(name=>{
+const div=document.createElement("div");
+div.className="player"; div.innerText=name; box.appendChild(div);
+});
+}
+document.getElementById("dealUndercover").addEventListener("click",()=>{
+const civilian=document.getElementById("civilianWord").value;
+const undercover=document.getElementById("undercoverWord").value;
+let undercoverCount=1;
+if(undercoverPlayers.length>=8)undercoverCount=2;
+const shuffled=[...undercoverPlayers].sort(()=>Math.random()-0.5);
+const box=document.getElementById("undercoverCards");
+box.innerHTML="";
+undercoverPlayers.forEach(name=>{
+const isUndercover=shuffled.slice(0,undercoverCount).includes(name);
+const div=document.createElement("div"); div.className="card";
+div.innerHTML=`<strong>${name}</strong><br><br>${isUndercover?undercover:civilian}`;
+box.appendChild(div);
+});
+});
+
+// 狼人杀
+const wolfPlayers=[];
+document.getElementById("addWolfPlayer").addEventListener("click",()=>{
+const input=document.getElementById("wolfName");
+if(!input.value.trim())return;
+wolfPlayers.push(input.value); renderWolfPlayers(); input.value="";
+});
+function renderWolfPlayers(){
+const box=document.getElementById("wolfPlayers"); box.innerHTML="";
+wolfPlayers.forEach(name=>{const div=document.createElement("div"); div.className="player"; div.innerText=name; box.appendChild(div);});
+}
+document.getElementById("dealWolf").addEventListener("click",()=>{
+const roles=[]; const total=wolfPlayers.length; const wolfCount=total>=9?3:2;
+for(let i=0;i<wolfCount;i++)roles.push("狼人"); roles.push("预言家"); roles.push("女巫");
+while(roles.length<total)roles.push("平民");
+roles.sort(()=>Math.random()-0.5);
+const box=document.getElementById("wolfCards"); box.innerHTML="";
+wolfPlayers.forEach((name,index)=>{const div=document.createElement("div"); div.className="card"; div.innerHTML=`<strong>${name}</strong><br><br>${roles[index]}`; box.appendChild(div);});
+});
+</script>
 
 </body>
 </html>
