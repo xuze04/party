@@ -1,347 +1,383 @@
-```html
 <!DOCTYPE html>
 <html lang="zh-CN">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>聚会神器</title>
+<title>聚会神器 v2</title>
 
 <style>
 
-:root{
-  --cyan:#22d3ee;
-  --green:#22c55e;
-  --red:#ef4444;
-  --bg1:#020617;
-  --bg2:#071426;
-}
-
 *{
-  margin:0;
-  padding:0;
-  box-sizing:border-box;
+margin:0;
+padding:0;
+box-sizing:border-box;
+-webkit-tap-highlight-color:transparent;
 }
 
 body{
-  font-family:
-  -apple-system,
-  BlinkMacSystemFont,
-  "Segoe UI",
-  "Microsoft YaHei",
-  sans-serif;
 
-  min-height:100vh;
+font-family:
+-apple-system,
+BlinkMacSystemFont,
+"Segoe UI",
+sans-serif;
 
-  color:white;
+color:white;
 
-  background:
-  linear-gradient(135deg,var(--bg1),var(--bg2));
+min-height:100vh;
 
-  overflow:hidden;
-}
+overflow-x:hidden;
 
-.app-shell{
-  padding:20px;
-}
+background:
+radial-gradient(circle at 20% 20%, #ff00cc55, transparent 300px),
+radial-gradient(circle at 80% 80%, #00ccff55, transparent 300px),
+linear-gradient(135deg,#020617,#0f172a);
 
-.topbar{
-  margin-bottom:20px;
-}
+background-size:200% 200%;
 
-.eyebrow{
-  color:var(--cyan);
-  font-size:12px;
-}
-
-h1{
-  font-size:38px;
-}
-
-.mode-tabs{
-  display:flex;
-  gap:10px;
-  margin-bottom:20px;
-}
-
-.tab{
-  flex:1;
-  height:50px;
-
-  border:none;
-  border-radius:16px;
-
-  background:#132235;
-  color:white;
-
-  font-size:16px;
-  font-weight:700;
-}
-
-.tab.active{
-  background:var(--cyan);
-  color:black;
-}
-
-.panel{
-  display:none;
-}
-
-.panel.active{
-  display:block;
-}
-
-.primary-btn{
-
-  width:100%;
-  height:60px;
-
-  border:none;
-  border-radius:18px;
-
-  background:linear-gradient(135deg,#ff4d8d,#8b5cf6);
-
-  color:white;
-
-  font-size:22px;
-  font-weight:900;
+animation:bgMove 10s infinite alternate;
 
 }
 
-.home-card{
+@keyframes bgMove{
 
-  padding:20px;
+0%{
+background-position:0% 50%;
+}
 
-  background:rgba(255,255,255,.05);
-
-  border-radius:24px;
+100%{
+background-position:100% 50%;
+}
 
 }
 
-.home-card h2{
-  margin-bottom:10px;
+.container{
+padding:20px;
 }
 
-.home-card p{
-  margin-bottom:20px;
-  color:#cbd5e1;
-}
+.title{
 
-/* 全屏模式 */
+font-size:42px;
+font-weight:900;
 
-.finger-screen{
+margin-top:20px;
+margin-bottom:30px;
 
-  position:fixed;
-  inset:0;
+text-align:center;
 
-  display:none;
-
-  z-index:99999;
-
-  background:
-  radial-gradient(circle at center,
-  rgba(34,211,238,.1),
-  transparent 300px),
-
-  linear-gradient(
-  135deg,
-  #020617,
-  #0f172a
-  );
+background:linear-gradient(90deg,#00e5ff,#ff00cc);
+background-clip: text;
+-webkit-background-clip:text;
+-webkit-text-fill-color:transparent;
 
 }
 
-.finger-pad{
+.grid{
 
-  width:100%;
-  height:100%;
+display:grid;
 
-  position:relative;
+grid-template-columns:1fr 1fr;
 
-  touch-action:none;
-
-}
-
-.finger-title{
-
-  position:absolute;
-
-  top:60px;
-  left:50%;
-
-  transform:translateX(-50%);
-
-  color:#cbd5e1;
-
-  font-size:22px;
-
-}
-
-.start-btn{
-
-  position:fixed;
-
-  left:50%;
-  top:50%;
-
-  transform:translate(-50%,-50%);
-
-  width:240px;
-  height:90px;
-
-  border:none;
-  border-radius:999px;
-
-  background:var(--green);
-
-  color:white;
-
-  font-size:40px;
-  font-weight:900;
-
-  z-index:999999;
-
-  box-shadow:
-  0 0 40px rgba(34,197,94,.45);
-
-  touch-action:manipulation;
-  pointer-events:auto;
-
-}
-
-.finger-dot{
-
-  position:absolute;
-
-  width:90px;
-  height:90px;
-
-  border-radius:50%;
-
-  transform:translate(-50%,-50%);
-
-  display:flex;
-  justify-content:center;
-  align-items:center;
-
-  font-size:30px;
-  font-weight:900;
-
-  border:4px solid white;
-
-  color:white;
-
-}
-
-.winner{
-
-  animation:winnerPulse .35s infinite alternate;
-
-}
-
-@keyframes winnerPulse{
-
-  from{
-    transform:translate(-50%,-50%) scale(1);
-  }
-
-  to{
-    transform:translate(-50%,-50%) scale(1.35);
-  }
-
-}
-
-.close-btn{
-
-  position:fixed;
-
-  right:20px;
-  top:20px;
-
-  width:56px;
-  height:56px;
-
-  border:none;
-  border-radius:50%;
-
-  background:#ef4444;
-
-  color:white;
-
-  font-size:28px;
-  font-weight:900;
-
-  z-index:999999;
-
-}
-
-.input-row{
-  display:flex;
-  gap:10px;
-  margin:20px 0;
-}
-
-.input-row input{
-
-  flex:1;
-
-  height:50px;
-
-  border:none;
-  border-radius:16px;
-
-  padding:0 16px;
-
-}
-
-.input-row button{
-
-  width:90px;
-
-  border:none;
-  border-radius:16px;
-
-  background:var(--cyan);
-
-  font-weight:900;
-
-}
-
-.players{
-
-  display:flex;
-  flex-wrap:wrap;
-  gap:10px;
-
-  margin-bottom:20px;
-
-}
-
-.player{
-
-  padding:10px 16px;
-
-  background:#132235;
-
-  border-radius:999px;
-
-}
-
-.cards{
-
-  display:grid;
-  gap:14px;
+gap:18px;
 
 }
 
 .card{
 
-  padding:18px;
+height:130px;
 
-  border-radius:18px;
+border-radius:28px;
 
-  background:#132235;
+background:rgba(255,255,255,.08);
 
-  font-size:18px;
+backdrop-filter:blur(20px);
+
+display:flex;
+
+justify-content:center;
+align-items:center;
+
+font-size:24px;
+font-weight:900;
+
+box-shadow:
+0 10px 30px rgba(0,0,0,.25);
+
+transition:.25s;
+
+}
+
+.card:active{
+transform:scale(.96);
+}
+
+.page{
+
+display:none;
+
+position:fixed;
+
+inset:0;
+
+z-index:999;
+
+padding:20px;
+
+overflow:auto;
+
+background:
+radial-gradient(circle at 20% 20%, #ff00cc55, transparent 300px),
+radial-gradient(circle at 80% 80%, #00ccff55, transparent 300px),
+linear-gradient(135deg,#020617,#0f172a);
+
+background-size:200% 200%;
+
+animation:bgMove 10s infinite alternate;
+
+}
+
+.back{
+
+width:60px;
+height:60px;
+
+border:none;
+border-radius:50%;
+
+background:#ef4444;
+
+color:white;
+
+font-size:30px;
+font-weight:900;
+
+}
+
+.page h2{
+
+margin-top:20px;
+margin-bottom:20px;
+
+font-size:36px;
+
+}
+
+.big-btn{
+
+width:100%;
+height:70px;
+
+border:none;
+border-radius:999px;
+
+font-size:28px;
+font-weight:900;
+
+color:white;
+
+background:linear-gradient(90deg,#00e5ff,#8b5cf6);
+
+margin-top:20px;
+
+}
+
+/* 指尖 */
+
+.finger-area{
+
+position:fixed;
+inset:0;
+
+touch-action:none;
+
+}
+
+.start-btn{
+
+position:fixed;
+
+left:50%;
+top:50%;
+
+transform:translate(-50%,-50%);
+
+width:240px;
+height:90px;
+
+border:none;
+border-radius:999px;
+
+background:#22c55e;
+
+color:white;
+
+font-size:40px;
+font-weight:900;
+
+z-index:99999;
+
+box-shadow:
+0 0 40px rgba(34,197,94,.45);
+
+}
+
+.finger-dot{
+
+position:absolute;
+
+width:90px;
+height:90px;
+
+border-radius:50%;
+
+display:flex;
+justify-content:center;
+align-items:center;
+
+font-size:30px;
+font-weight:900;
+
+color:white;
+
+border:4px solid white;
+
+transform:translate(-50%,-50%);
+
+}
+
+.winner{
+
+animation:pulse .35s infinite alternate;
+
+}
+
+@keyframes pulse{
+
+from{
+transform:translate(-50%,-50%) scale(1);
+}
+
+to{
+transform:translate(-50%,-50%) scale(1.3);
+}
+
+}
+
+/* 卧底 */
+
+.select{
+
+width:100%;
+height:60px;
+
+border:none;
+border-radius:18px;
+
+padding:0 20px;
+
+font-size:20px;
+
+margin-bottom:20px;
+
+}
+
+.card-box{
+
+margin-top:20px;
+
+display:grid;
+gap:16px;
+
+}
+
+.result-card{
+
+padding:20px;
+
+border-radius:20px;
+
+background:rgba(255,255,255,.08);
+
+backdrop-filter:blur(20px);
+
+font-size:24px;
+
+text-align:center;
+
+}
+
+/* 转盘 */
+
+.wheel-wrap{
+
+display:flex;
+justify-content:center;
+align-items:center;
+
+margin-top:30px;
+
+}
+
+.wheel{
+
+width:320px;
+height:320px;
+
+border-radius:50%;
+
+border:10px solid white;
+
+position:relative;
+
+transition:5s cubic-bezier(.15,.85,.2,1);
+
+background:
+conic-gradient(
+#ff4d8d 0deg 60deg,
+#00e5ff 60deg 120deg,
+#22c55e 120deg 180deg,
+#f59e0b 180deg 240deg,
+#8b5cf6 240deg 300deg,
+#ef4444 300deg 360deg
+);
+
+}
+
+.pointer{
+
+position:absolute;
+
+top:-20px;
+left:50%;
+
+transform:translateX(-50%);
+
+width:0;
+height:0;
+
+border-left:20px solid transparent;
+border-right:20px solid transparent;
+border-bottom:40px solid white;
+
+}
+
+.truth-box{
+
+margin-top:30px;
+
+padding:24px;
+
+border-radius:24px;
+
+background:rgba(255,255,255,.08);
+
+font-size:28px;
+
+line-height:1.6;
+
+text-align:center;
+
+backdrop-filter:blur(20px);
 
 }
 
@@ -350,222 +386,212 @@ h1{
 
 <body>
 
-<main class="app-shell">
+<div class="container">
 
-<header class="topbar">
-  <p class="eyebrow">PARTY SYNC</p>
-  <h1>聚会神器</h1>
-</header>
+<div class="title">
+聚会神器
+</div>
 
-<nav class="mode-tabs">
+<div class="grid">
 
-  <button class="tab active"
-  data-panel="homePanel">
-    首页
-  </button>
+<div class="card"
+onclick="openPage('fingerPage')">
+🎯 指尖模式
+</div>
 
-  <button class="tab"
-  data-panel="undercoverPanel">
-    谁是卧底
-  </button>
+<div class="card"
+onclick="openPage('undercoverPage')">
+🕵 谁是卧底
+</div>
 
-  <button class="tab"
-  data-panel="werewolfPanel">
-    狼人杀
-  </button>
+<div class="card"
+onclick="openPage('wheelPage')">
+🎡 惩罚轮盘
+</div>
 
-</nav>
+<div class="card"
+onclick="openPage('truthPage')">
+🔥 真心话
+</div>
 
-<!-- 首页 -->
+<div class="card"
+onclick="openPage('darePage')">
+😈 大冒险
+</div>
 
-<section class="panel active"
-id="homePanel">
+</div>
 
-  <div class="home-card">
+</div>
 
-    <h2>指尖模式</h2>
+<!-- 指尖 -->
 
-    <p>
-      多人按住屏幕，
-      点击 START 后随机抽选。
-    </p>
+<div class="page"
+id="fingerPage">
 
-    <button class="primary-btn"
-    id="enterFingerBtn">
+<button class="back"
+onclick="closePage('fingerPage')">
+×
+</button>
 
-      进入指尖模式
+<div class="finger-area"
+id="fingerArea">
+</div>
 
-    </button>
+<button class="start-btn"
+id="startBtn">
+START
+</button>
 
-  </div>
+</div>
 
-</section>
+<!-- 卧底 -->
 
-<!-- 全屏 -->
+<div class="page"
+id="undercoverPage">
 
-<section class="finger-screen"
-id="fingerScreen">
-
-  <div class="finger-pad"
-  id="fingerPad">
-
-    <div class="finger-title">
-      按住屏幕加入
-    </div>
-
-  </div>
-
-  <button class="start-btn"
-  id="startBtn">
-
-    START
-
-  </button>
-
-  <button class="close-btn"
-  id="closeBtn">
-
-    ×
-
-  </button>
-
-</section>
-
-<!-- 谁是卧底 -->
-
-<section class="panel"
-id="undercoverPanel">
+<button class="back"
+onclick="closePage('undercoverPage')">
+×
+</button>
 
 <h2>谁是卧底</h2>
 
-<div class="input-row">
+<select
+class="select"
+id="playerCount">
 
-<input
-type="text"
-id="undercoverName"
-placeholder="输入玩家名字">
+<option value="5">5人</option>
+<option value="6">6人</option>
+<option value="7">7人</option>
+<option value="8">8人</option>
+<option value="9">9人</option>
+<option value="10">10人</option>
 
-<button id="addUndercoverPlayer">
-添加
+</select>
+
+<button class="big-btn"
+onclick="startUndercover()">
+开始随机词语
 </button>
 
+<div class="card-box"
+id="undercoverResult">
 </div>
-
-<div class="players"
-id="undercoverPlayers">
-</div>
-
-<div class="input-row">
-
-<input
-id="civilianWord"
-value="牛奶">
-
-<input
-id="undercoverWord"
-value="豆浆">
 
 </div>
 
-<button class="primary-btn"
-id="dealUndercover">
+<!-- 转盘 -->
 
-开始发牌
+<div class="page"
+id="wheelPage">
+
+<button class="back"
+onclick="closePage('wheelPage')">
+×
+</button>
+
+<h2>惩罚轮盘</h2>
+
+<div class="wheel-wrap">
+
+<div class="pointer">
+</div>
+
+<div class="wheel"
+id="wheel">
+</div>
+
+</div>
+
+<button class="big-btn"
+onclick="spinWheel()">
+开始旋转
+</button>
+
+<div class="truth-box"
+id="wheelResult">
+点击开始
+</div>
+
+</div>
+
+<!-- 真心话 -->
+
+<div class="page"
+id="truthPage">
+
+<button class="back"
+onclick="closePage('truthPage')">
+×
+</button>
+
+<h2>真心话</h2>
+
+<button class="big-btn"
+onclick="randomTruth()">
+随机抽题
+</button>
+
+<div class="truth-box"
+id="truthText">
+
+点击按钮开始
+
+</div>
+
+</div>
+
+<!-- 大冒险 -->
+
+<div class="page"
+id="darePage">
+
+<button class="back"
+onclick="closePage('darePage')">
+×
+</button>
+
+<h2>大冒险</h2>
+
+<button class="big-btn"
+onclick="randomDare()">
+
+随机抽取
 
 </button>
 
-<div class="cards"
-id="undercoverCards">
-</div>
+<div class="truth-box"
+id="dareText">
 
-</section>
-
-<!-- 狼人杀 -->
-
-<section class="panel"
-id="werewolfPanel">
-
-<h2>狼人杀</h2>
-
-<div class="input-row">
-
-<input
-type="text"
-id="wolfName"
-placeholder="输入玩家名字">
-
-<button id="addWolfPlayer">
-添加
-</button>
+点击按钮开始
 
 </div>
 
-<div class="players"
-id="wolfPlayers">
 </div>
-
-<button class="primary-btn"
-id="dealWolf">
-
-开始发牌
-
-</button>
-
-<div class="cards"
-id="wolfCards">
-</div>
-
-</section>
-
-</main>
 
 <script>
 
-// tab切换
+/* 页面 */
 
-const tabs =
-document.querySelectorAll(".tab");
+function openPage(id){
 
-const panels =
-document.querySelectorAll(".panel");
+document.getElementById(id)
+.style.display="block";
 
-tabs.forEach(tab=>{
+}
 
-tab.addEventListener("click",()=>{
+function closePage(id){
 
-tabs.forEach(t=>
-t.classList.remove("active"));
+document.getElementById(id)
+.style.display="none";
 
-panels.forEach(p=>
-p.classList.remove("active"));
+}
 
-tab.classList.add("active");
+/* 指尖 */
 
-document
-.getElementById(
-tab.dataset.panel
-)
-.classList.add("active");
-
-});
-
-});
-
-// 指尖模式
-
-const enterFingerBtn =
+const fingerArea =
 document.getElementById(
-"enterFingerBtn"
-);
-
-const fingerScreen =
-document.getElementById(
-"fingerScreen"
-);
-
-const fingerPad =
-document.getElementById(
-"fingerPad"
+"fingerArea"
 );
 
 const startBtn =
@@ -573,58 +599,34 @@ document.getElementById(
 "startBtn"
 );
 
-const closeBtn =
-document.getElementById(
-"closeBtn"
-);
-
-enterFingerBtn.onclick=()=>{
-
-fingerScreen.style.display="block";
-
-};
-
-closeBtn.onclick=()=>{
-
-fingerScreen.style.display="none";
-
-};
-
 const colors=[
-"#22d3ee",
-"#ef4444",
-"#a855f7",
+"#00e5ff",
+"#ff4d8d",
 "#22c55e",
-"#f97316",
-"#eab308",
-"#3b82f6",
-"#ec4899"
+"#8b5cf6",
+"#f59e0b"
 ];
 
-const fingerState={
+const touches=new Map();
 
-touches:new Map(),
-winner:null,
-running:false
-
-};
+let winner=null;
 
 function renderTouches(){
 
-fingerPad
+fingerArea
 .querySelectorAll(".finger-dot")
 .forEach(el=>el.remove());
 
-Array
-.from(fingerState.touches.values())
-.forEach((touch,index)=>{
+Array.from(
+touches.values()
+).forEach((touch,index)=>{
 
-const dot =
+const dot=
 document.createElement("div");
 
 dot.className="finger-dot";
 
-if(fingerState.winner===touch.id){
+if(winner===touch.id){
 
 dot.classList.add("winner");
 
@@ -641,7 +643,7 @@ colors[index%colors.length];
 
 dot.innerText=index+1;
 
-fingerPad.appendChild(dot);
+fingerArea.appendChild(dot);
 
 });
 
@@ -649,22 +651,15 @@ fingerPad.appendChild(dot);
 
 function updateTouches(e){
 
+Array.from(e.touches)
+.forEach(t=>{
 
-const rect=
-fingerPad.getBoundingClientRect();
-
-fingerState.touches.clear();
-
-Array
-.from(e.touches)
-.forEach(touch=>{
-
-fingerState.touches.set(
-touch.identifier,
+touches.set(
+t.identifier,
 {
-id:touch.identifier,
-x:touch.clientX-rect.left,
-y:touch.clientY-rect.top
+id:t.identifier,
+x:t.clientX,
+y:t.clientY
 }
 );
 
@@ -674,49 +669,53 @@ renderTouches();
 
 }
 
-[
+fingerArea.addEventListener(
 "touchstart",
-"touchmove",
-"touchend",
-"touchcancel"
-].forEach(type=>{
+updateTouches
+);
 
-fingerPad.addEventListener(
-type,
+fingerArea.addEventListener(
+"touchmove",
+updateTouches
+);
+
+fingerArea.addEventListener(
+"touchend",
 e=>{
 
-if(e.target===startBtn){
-return;
+touches.clear();
+
+Array.from(e.touches)
+.forEach(t=>{
+
+touches.set(
+t.identifier,
+{
+id:t.identifier,
+x:t.clientX,
+y:t.clientY
 }
-
-updateTouches(e);
-
-},
-{passive:false}
 );
 
 });
 
+renderTouches();
+
+}
+);
+
 startBtn.addEventListener(
 "touchstart",
-(e)=>{
+()=>{
 
-e.stopPropagation();
+if(touches.size===0)return;
 
-if(
-fingerState.running ||
-fingerState.touches.size===0
-){
-return;
-}
-
-fingerState.running=true;
-
-startBtn.style.background="#ef4444";
+startBtn.style.background=
+"#ef4444";
 
 const ids=
 Array.from(
-fingerState.touches.keys()
+touches.keys()
 );
 
 let count=0;
@@ -724,7 +723,7 @@ let count=0;
 const timer=
 setInterval(()=>{
 
-fingerState.winner=
+winner=
 ids[
 Math.floor(
 Math.random()*ids.length
@@ -739,255 +738,251 @@ if(count>=30){
 
 clearInterval(timer);
 
-fingerState.running=false;
-
-startBtn.style.background="#22c55e";
-
-const winnerIndex=
-ids.indexOf(
-fingerState.winner
-)+1;
-
-setTimeout(()=>{
-
-alert(
-"抽中了手指 "+winnerIndex
-);
-
-},300);
+startBtn.style.background=
+"#22c55e";
 
 }
 
 },100);
 
-},
-{passive:true}
+}
 );
 
-// 卧底
+/* 卧底 */
 
-const undercoverPlayers=[];
+const words=[
 
-document
-.getElementById(
-"addUndercoverPlayer"
-)
-.onclick=()=>{
+["葡萄","提子"],["橙子","橘子"],["面包","蛋糕"],["油条","麻花"],["白菜","生菜"],
+["辣椒","芥末"],["小笼包","灌汤包"],["汉堡","肉夹馍"],["牛奶","豆浆"],["薯片","饼干"],
+["酸菜鱼","水煮鱼"],["果粒橙","鲜橙多"],["大白兔","金丝猴"],["螺蛳粉","臭豆腐"],["叉烧包","肉包"],
+["披萨","意面"],["寿司","泡菜"],["芒果","榴莲"],["西瓜","哈密瓜"],["绿茶","龙井"],
+["可乐","雪碧"],["馄饨","饺子"],["腊肉","培根"],["牛肉干","猪肉脯"],["火锅","烤肉"],
+["爆米花","棉花糖"],["八宝粥","黑米粥"],["银耳","燕窝"],["麦芽糖","棒棒糖"],["口香糖","木糖醇"],
+["红豆","绿豆"],["燕麦","糙米"],["泡芙","蛋挞"],["卤味","烧烤"],["椰子","菠萝"],
+["奶酪","奶油"],["米酒","黄酒"],["手抓饼","煎饼"],["芋圆","汤圆"],["杏仁","腰果"],
+["纸巾","手帕"],["唇膏","口红"],["枕头","抱枕"],["水盆","水桶"],["手机","座机"],
+["牙刷","牙膏"],["毛巾","浴巾"],["筷子","勺子"],["雨伞","雨衣"],["拖鞋","皮鞋"],
+["梳子","卷发棒"],["肥皂","香皂"],["台灯","落地灯"],["耳机","音箱"],["充电器","充电宝"],
+["洗发水","护发素"],["洗面奶","沐浴露"],["壁纸","贴画"],["晨光","真彩"],["钢笔","中性笔"],
+["风扇","空调"],["镜子","玻璃"],["棉被","毛毯"],["手表","手环"],["背包","手提包"],
+["拖把","扫帚"],["暖手宝","热水袋"],["剪刀","美工刀"],["马克笔","水彩笔"],["玻璃杯","陶瓷杯"],
+["晾衣架","晾衣绳"],["蚊香","驱蚊液"],["手套","袖套"],["行李箱","收纳箱"],["口罩","面纱"],
+["窗帘","门帘"],["订书机","打孔器"],["棉袜","丝袜"],["搓澡巾","沐浴球"],["垃圾桶","收纳袋"],
+["蝴蝶","蜜蜂"],["猫咪","小狗"],["海豚","海狮"],["玫瑰","月季"],["康乃馨","郁金香"],
+["麻雀","乌鸦"],["老鹰","隼"],["金鱼","锦鲤"],["松树","柏树"],["荷花","睡莲"],
+["蒲公英","满天星"],["蚯蚓","蜈蚣"],["企鹅","北极熊"],["梧桐","杨树"],["荔枝","龙眼"],
+["蚂蚱","蟋蟀"],["鲸鱼","鲨鱼"],["仙人掌","仙人球"],["杜鹃","喜鹊"],["芦苇","茅草"],
+["萤火虫","星星"],["稻谷","小麦"],["斑马","羚羊"],["绿萝","吊兰"],["螃蟹","虾"],
+["山茶","牡丹"],["骆驼","牦牛"],["苔藓","青苔"],["知了","蝈蝈"],["银杏","枫树"],
+["蜗牛","田螺"],["榴莲","菠萝蜜"],["燕子","麻雀"],["薄荷","艾草"],["绵羊","山羊"],
+["鲨鱼","鳄鱼"],["桂花","茉莉"],["瓢虫","甲虫"],["水草","浮萍"],["猎豹","老虎"],
+["作家","编剧"],["班主任","辅导员"],["警察","捕快"],["魔术师","魔法师"],["李白","杜甫"],
+["包青天","狄仁杰"],["董永","许仙"],["赵敏","黄蓉"],["孟非","乐嘉"],["何炅","李维嘉"],
+["甄子丹","李连杰"],["郭德纲","周立波"],["甄嬛传","红楼梦"],["蜘蛛侠","蝙蝠侠"],["双胞胎","龙凤胎"],
+["富二代","高富帅"],["保安","保镖"],["学生","同学"],["新郎","未婚夫"],["化妆师","美容师"],
+["厨师","面点师"],["护士","医生"],["司机","代驾"],["画家","漫画家"],["快递员","外卖员"],
+["古装","汉服"],["婚纱","喜服"],["小品","话剧"],["神话","童话"],["漫威","DC"],
+["杨过","令狐冲"],["歌手","主播"],["健身教练","私教"],["店长","店员"],["宇航员","飞行员"],
+["模特","演员"],["导游","领队"],["棋手","牌手"],["消防员","武警"],["学霸","尖子生"],
+["过山车","碰碰车"],["自行车","电动车"],["篮球","足球"],["钢琴","吉他"],["电梯","楼梯"],
+["高铁","动车"],["爬山","徒步"],["游泳","潜水"],["羽毛球","乒乓球"],["长跑","短跑"],
+["杭州","苏州"],["结婚","订婚"],["裸婚","闪婚"],["情人节","光棍节"],["作文","论文"],
+["白天","傍晚"],["太阳","月亮"],["春雨","秋雨"],["滑雪","溜冰"],["瑜伽","普拉提"],
+["打车","网约车"],["游轮","快艇"],["古装剧","仙侠剧"],["长跑","马拉松"],["仰卧起坐","俯卧撑"],
+["露营","野餐"],["网购","实体店"],["午休","晚睡"],["素描","水彩"],["楷书","行书"],
+["春游","秋游"],["自驾游","跟团游"],["存钱","理财"],["预习","复习"],["早操","体育课"],
+["跳伞","蹦极"],["春联","福字"],["春运","小长假"],["午休","小憩"],["自驾游","房车旅行"]
 
-const input=
-document.getElementById(
-"undercoverName"
-);
+];
 
-if(!input.value.trim())return;
-
-undercoverPlayers.push(
-input.value
-);
-
-renderUndercoverPlayers();
-
-input.value="";
-
-};
-
-function renderUndercoverPlayers(){
+function startUndercover(){
 
 const box=
 document.getElementById(
-"undercoverPlayers"
+"undercoverResult"
 );
 
 box.innerHTML="";
 
-undercoverPlayers.forEach(name=>{
+const count=
+Number(
+document.getElementById(
+"playerCount"
+).value
+);
+
+const pair=
+words[
+Math.floor(
+Math.random()*words.length
+)
+];
+
+const undercoverCount=
+count>=8?2:1;
+
+const players=[];
+
+for(let i=1;i<=count;i++){
+
+players.push(i);
+
+}
+
+players.sort(()=>Math.random()-0.5);
+
+for(let i=1;i<=count;i++){
 
 const div=
 document.createElement("div");
 
-div.className="player";
-
-div.innerText=name;
-
-box.appendChild(div);
-
-});
-
-}
-
-document
-.getElementById(
-"dealUndercover"
-)
-.onclick=()=>{
-
-const civilian=
-document.getElementById(
-"civilianWord"
-).value;
-
-const undercover=
-document.getElementById(
-"undercoverWord"
-).value;
-
-let undercoverCount=1;
-
-if(
-undercoverPlayers.length>=8
-){
-undercoverCount=2;
-}
-
-const shuffled=
-[...undercoverPlayers]
-.sort(()=>Math.random()-0.5);
-
-const box=
-document.getElementById(
-"undercoverCards"
-);
-
-box.innerHTML="";
-
-undercoverPlayers.forEach(name=>{
+div.className="result-card";
 
 const isUndercover=
-shuffled
+players
 .slice(0,undercoverCount)
-.includes(name);
+.includes(i);
 
-const div=
-document.createElement("div");
-
-div.className="card";
-
-div.innerHTML=`
-<strong>${name}</strong>
+div.innerHTML=
+`
+玩家 ${i}
 <br><br>
-${isUndercover?undercover:civilian}
+${isUndercover?pair[1]:pair[0]}
 `;
 
 box.appendChild(div);
 
-});
+}
 
-};
+}
 
-// 狼人杀
+/* 转盘 */
 
-const wolfPlayers=[];
+const punishments=[
 
-document
-.getElementById(
-"addWolfPlayer"
+"真心话",
+"大冒险",
+
+];
+
+let rotateDeg=0;
+
+function spinWheel(){
+
+rotateDeg+=
+3600+
+Math.random()*360;
+
+const wheel=
+document.getElementById(
+"wheel"
+);
+
+wheel.style.transform=
+`rotate(${rotateDeg}deg)`;
+
+setTimeout(()=>{
+
+const index=
+Math.floor(
+Math.random()*punishments.length
+);
+
+document.getElementById(
+"wheelResult"
+).innerText=
+punishments[index];
+
+},5000);
+
+}
+
+/* 真心话 */
+
+const truths=[
+
+"你暗恋过谁？","你最尴尬的一次经历？","谈过几段恋爱？","初吻是什么时候？","有没有偷偷哭过？","有没有撒过很大的谎？","最讨厌在场哪个人？","偷偷翻看别人手机过吗？","有没有装过有钱人？","做过最沙雕的事？","有没有偷偷吐槽过朋友？","第一次谈恋爱几岁？","有没有被人表白拒绝过？","表白被拒是什么心情？","有没有偷偷喜欢在场的人？","存钱最多存了多少？","偷偷在背后说人坏话吗？","睡觉有没有磨牙打呼？","有没有偷看别人洗澡？","最丢人的一件往事？","手机里有没有私密照片？","有没有网恋奔现过？","网恋翻车经历？","偷偷收藏过什么奇葩东西？","有没有借钱不还过？","被别人借钱赖账过吗？","最怕什么小动物？","有没有装病逃课？","上学被罚站过几次？","考试有没有作弊？","作弊被抓过吗？","偷偷改过试卷分数？","理想型是什么样子？","有没有一见钟情过？","有没有脚踏两条船想法？","收到最奇葩礼物？","送出最后悔的礼物？","做过最败家的消费？","有没有暴饮暴食？","偷偷节食减肥过吗？","有没有怕黑不敢独自睡觉？","最怕什么鬼故事？","有没有在厕所吃过东西？","有没有随地吐过痰？","小时候偷拿家里钱吗？","偷拿过多少钱？","有没有暗恋老师？","被老师罚写检讨几次？","朋友圈屏蔽过谁？","分组屏蔽过好友吗？","有没有假装没看见熟人？","喝醉过吗？醉酒干过糗事？","有没有酒后乱说话？","手机壁纸藏什么小心思？","有没有存前任联系方式？","放不下前任吗？","因为什么和前任分手？","有没有无缝衔接恋爱？","最不能接受对象什么毛病？","有没有花痴盯着路人？","偷偷保存陌生人照片？","网购踩过最坑的货？","有没有半夜点外卖暴饮暴食？","最怕亲戚什么提问？","过年被催婚尴尬经历？","有没有整蛊捉弄朋友？","整蛊被报复过吗？","有没有撒谎请假出去玩？","撒谎被当场拆穿？","有没有偷偷追星花钱？","为偶像花过多少钱？","有没有幻想暴富生活？","如果暴富第一件事干啥？","有没有嫌弃过自己长相？","整容想法强烈吗？","有没有偷偷 p 图骗网友？","网聊用过假照片吗？","有没有和网友暧昧？","面基网友失望经历？","有没有怕虫子大喊大叫？","独处的时候怪癖是什么？","有没有自言自语？","做梦梦见过在场的人吗？","有没有睡觉说梦话？","有没有无意间听到别人八卦？","八卦过后乱传话吗？","有没有因为颜值偏心别人？","有没有嫉妒身边好朋友？","做过的亏心事是什么？","有没有乱扔垃圾被撞见？","公共场合出过洋相？","有没有喜欢吃奇怪搭配食物？","有没有害怕独处深夜？","有没有偷偷许愿实现过？","有没有骗过家人零花钱？","被父母发现撒谎挨打？","有没有吐槽过自己父母？","有没有临时放朋友鸽子？","放鸽子后找过什么借口？","有没有偷偷暗恋多年无果？","如果重来会追暗恋对象吗？","身上最不满意的部位？","有没有被陌生人搭讪？","搭讪结果怎么样？"
+
+];
+
+/*大冒险*/
+const dares=[
+
+"模仿猩猩10秒",
+
+"给通讯录第5个人发“我想你了”",
+
+"学猫叫20秒",
+
+"唱一首歌",
+
+"模仿老师讲课",
+
+"做10个俯卧撑",
+
+"现场跳舞15秒",
+
+"模仿电视剧表白",
+
+"对左边的人说土味情话",
+
+"模仿机器人走路",
+
+"做搞笑自拍",
+
+"倒着说自己的名字",
+
+"用方言介绍自己",
+
+"模仿超模走秀",
+
+"对空气深情告白",
+
+"唱青藏高原",
+
+"学鸭子走路",
+
+"夸在场一个人",
+
+"做鬼脸10秒",
+
+"模仿奥特曼变身"
+
+];
+function randomTruth(){
+
+const q=
+truths[
+Math.floor(
+Math.random()*truths.length
 )
-.onclick=()=>{
+];
 
-const input=
+
+
 document.getElementById(
-"wolfName"
-);
+"truthText"
+).innerText=q;
 
-if(!input.value.trim())return;
 
-wolfPlayers.push(
-input.value
-);
-
-renderWolfPlayers();
-
-input.value="";
-
-};
-
-function renderWolfPlayers(){
-
-const box=
-document.getElementById(
-"wolfPlayers"
-);
-
-box.innerHTML="";
-
-wolfPlayers.forEach(name=>{
-
-const div=
-document.createElement("div");
-
-div.className="player";
-
-div.innerText=name;
-
-box.appendChild(div);
-
-});
 
 }
+function randomDare(){
 
-document
-.getElementById(
-"dealWolf"
+const q=
+dares[
+Math.floor(
+Math.random()*dares.length
 )
-.onclick=()=>{
+];
 
-const roles=[];
-
-const total=
-wolfPlayers.length;
-
-const wolfCount=
-total>=9?3:2;
-
-for(let i=0;i<wolfCount;i++){
-
-roles.push("狼人");
-
-}
-
-roles.push("预言家");
-roles.push("女巫");
-
-while(
-roles.length<total
-){
-
-roles.push("平民");
-
-}
-
-roles.sort(
-()=>Math.random()-0.5
-);
-
-const box=
 document.getElementById(
-"wolfCards"
-);
+"dareText"
+).innerText=q;
 
-box.innerHTML="";
-
-wolfPlayers.forEach((name,index)=>{
-
-const div=
-document.createElement("div");
-
-div.className="card";
-
-div.innerHTML=`
-<strong>${name}</strong>
-<br><br>
-${roles[index]}
-`;
-
-box.appendChild(div);
-
-});
-
-};
+}
 
 </script>
 
 </body>
 </html>
-```
